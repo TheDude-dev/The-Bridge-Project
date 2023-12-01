@@ -5,16 +5,13 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 error BridgeToken_Unauthorized();
+error BridgeToken_AddressAlreadySet();
 
 contract BridgeToken is ERC20 {
-  address private EthReceiverAddress;
+  address public EthReceiverAddress;
 
-  constructor(
-    uint256 initialSupply,
-    address _EthReceiverAddress
-  ) ERC20("Bridge", "BG") {
+  constructor(uint256 initialSupply) ERC20("Bridge", "BG") {
     _mint(msg.sender, initialSupply);
-    EthReceiverAddress = _EthReceiverAddress;
   }
 
   function mintForEthReceiverContract(address account, uint256 value) external {
@@ -22,5 +19,13 @@ contract BridgeToken is ERC20 {
       revert BridgeToken_Unauthorized();
     }
     _mint(account, value);
+  }
+
+  function setEthReceiverAddress(address _ethReceiverAddress) external {
+    if (EthReceiverAddress != address(0)) {
+      revert BridgeToken_AddressAlreadySet();
+    }
+
+    EthReceiverAddress = _ethReceiverAddress;
   }
 }
