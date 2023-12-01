@@ -9,6 +9,7 @@ const networkConfig = {
   },
 }
 const INITIAL_SUPPLY = "1000000000000000000000000"
+const RECEIVER_ADDRESS = "0x72986C919098b14Ad95b2fF0495A30229A9d3FEA"
 
 const developmentChains = ["hardhat", "localhost"]
 
@@ -16,4 +17,5 @@ module.exports = {
   networkConfig,
   developmentChains,
   INITIAL_SUPPLY,
+  RECEIVER_ADDRESS,
 }
