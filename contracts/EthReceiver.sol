@@ -5,6 +5,7 @@ import "./BridgeToken.sol";
 
 error EthReceiver_NotEnoughEthSent();
 error EthReceiver_NotOwner();
+error EthReceiver_FailedToSenDEther();
 
 contract EthReceiver {
   address private s_bridgeToken;
@@ -32,7 +33,7 @@ contract EthReceiver {
   }
 
   //function to loock and mint tokens
-  function receiveAndMint() external payable onlyOwner {
+  function receiveAndMint() external payable {
     //Check if owner
     if (msg.value <= 0) {
       revert EthReceiver_NotEnoughEthSent();
@@ -48,5 +49,13 @@ contract EthReceiver {
     //emit events
     emit TokenMinted(msg.value, receiver);
     emit EthReceived(msg.value, msg.sender);
+  }
+
+  function withdrawEth() external onlyOwner {
+    (bool success, ) = msg.sender.call{value: address(this).balance}("");
+
+    if (!success) {
+      revert EthReceiver_FailedToSenDEther();
+    }
   }
 }
