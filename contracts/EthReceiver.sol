@@ -33,17 +33,20 @@ contract EthReceiver {
   }
 
   //function to loock and mint tokens
-  function receiveAndMint() external payable {
+  function receiveAndMint() external payable onlyOwner {
     //Check if owner
     if (msg.value <= 0) {
       revert EthReceiver_NotEnoughEthSent();
     }
 
     // Mint tokens on the bridgetoken contract
+
     BridgeToken bridgeToken = BridgeToken(s_bridgeToken);
-    bridgeToken.mintForEthReceiverContract(msg.sender, msg.value * 4);
+    bridgeToken.mintForEthReceiverContract(msg.sender, msg.value * 4000);
 
     address receiver = s_receiver;
+    //transfer function to receiver
+    // bridgeToken.transferForReceiverContract()
     // uint256[] memory percentages;
 
     //emit events
@@ -59,3 +62,8 @@ contract EthReceiver {
     }
   }
 }
+
+// Mint
+// Send
+// Recorded
+//
