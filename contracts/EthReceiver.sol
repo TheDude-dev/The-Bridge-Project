@@ -32,8 +32,8 @@ contract EthReceiver {
     _;
   }
 
-  //function to loock and mint tokens
-  function receiveAndMint() external payable onlyOwner {
+  //function to lock and mint tokens
+  function receiveAndMint() external payable {
     //Check if owner
     if (msg.value <= 0) {
       revert EthReceiver_NotEnoughEthSent();
@@ -46,7 +46,7 @@ contract EthReceiver {
 
     address receiver = s_receiver;
     //transfer function to receiver
-    // bridgeToken.transferForReceiverContract()
+    //bridgeToken.transferForReceiverContract()
     // uint256[] memory percentages;
 
     //emit events
@@ -66,4 +66,3 @@ contract EthReceiver {
 // Mint
 // Send
 // Recorded
-//
