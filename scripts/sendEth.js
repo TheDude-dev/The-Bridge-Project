@@ -1,12 +1,13 @@
 const { ethers, network } = require("hardhat")
 const { moveBlocks } = require("../utils/move-blocks")
+require("dotenv").config()
 
 const sendEth = async () => {
   const ethReceiver = await ethers.getContract("EthReceiver")
   const contractAddress = ethReceiver.address
 
   // get a provider
-  const provider = new ethers.providers.JsonRpcProvider("http://loclahost:8545")
+  const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545")
 
   // connect wallet with provider
   const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider)
