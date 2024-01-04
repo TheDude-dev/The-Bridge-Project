@@ -15,7 +15,7 @@ const sendEth = async () => {
   // create a transaction
   const transaction = {
     to: contractAddress,
-    value: ethers.utils.parseEther("1.0"),
+    value: ethers.utils.parseEther("0.1"),
   }
 
   // sign and send transaction

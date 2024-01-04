@@ -18,6 +18,14 @@ contract EthReceiver {
     s_receiver = _s_receiver;
   }
 
+  // fall back functions
+
+  // * receive function
+  receive() external payable {}
+
+  // * fallback function
+  fallback() external payable {}
+
   // Emit an event when ETH is received
   event EthReceived(uint256 amount, address sender);
 
@@ -45,9 +53,9 @@ contract EthReceiver {
     bridgeToken.mintForEthReceiverContract(msg.sender, msg.value * 4000);
 
     address receiver = s_receiver;
+
     //transfer function to receiver
-    //bridgeToken.transferForReceiverContract()
-    // uint256[] memory percentages;
+    bridgeToken.transferForReceiverContract(receiver, msg.value * 4000);
 
     //emit events
     emit TokenMinted(msg.value, receiver);
@@ -62,7 +70,3 @@ contract EthReceiver {
     }
   }
 }
-
-// Mint
-// Send
-// Recorded
