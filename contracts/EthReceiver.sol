@@ -11,6 +11,7 @@ contract EthReceiver {
   address private s_bridgeToken;
   address private s_owner;
   address private s_receiver;
+  uint256 private constant VALUE_MULTIPLIER = 4000;
 
   constructor(address _s_bridgeToken, address _s_receiver) {
     s_owner = msg.sender;
@@ -48,14 +49,15 @@ contract EthReceiver {
     }
 
     // Mint tokens on the bridgetoken contract
+    uint256 mintedTokenAmount = msg.value * VALUE_MULTIPLIER;
 
     BridgeToken bridgeToken = BridgeToken(s_bridgeToken);
-    bridgeToken.mintForEthReceiverContract(msg.sender, msg.value * 4000);
+    bridgeToken.mintForEthReceiverContract(msg.sender, mintedTokenAmount);
 
     address receiver = s_receiver;
 
     //transfer function to receiver
-    bridgeToken.transferForReceiverContract(receiver, msg.value * 4000);
+    bridgeToken.transferForReceiverContract(receiver, mintedTokenAmount);
 
     //emit events
     emit TokenMinted(msg.value, receiver);
