@@ -11,7 +11,7 @@ const moveBlocks = async (amount, sleepAmount = 0) => {
 
     if (sleepAmount) {
       console.log(`sleeping for ${sleepAmount}`)
-      await sleepAmount(sleepAmount)
+      await sleep(sleepAmount)
     }
   }
   console.log(`Moved ${amount} blocks`)
