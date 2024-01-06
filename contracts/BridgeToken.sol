@@ -11,7 +11,9 @@ contract BridgeToken is ERC20 {
   address public EthReceiverAddress;
 
   modifier onlyEthReceiver() {
-    require(msg.sender == EthReceiverAddress, "Unauthorized");
+    if (msg.sender != EthReceiverAddress) {
+      revert BridgeToken_Unauthorized();
+    }
     _;
   }
 
@@ -23,9 +25,6 @@ contract BridgeToken is ERC20 {
     address account,
     uint256 value
   ) external onlyEthReceiver {
-    if (msg.sender != EthReceiverAddress) {
-      revert BridgeToken_Unauthorized();
-    }
     _mint(account, value);
   }
 

@@ -22,9 +22,11 @@ const {
 
         await deployments.fixture("all")
         bridgeToken = await ethers.getContract("BridgeToken", deployer)
+        ethReceiver = await ethers.getContract("EthReceiver", deployer)
       })
-      it("was deployed", async () => {
+      it("Both contracts were deployed", async () => {
         assert(bridgeToken.address)
+        assert(ethReceiver.address)
       })
 
       describe("Constructor", () => {
@@ -80,6 +82,23 @@ const {
         it("The allowance is accurate", async () => {
           await bridgeToken.approve(user1, amount)
           expect(await bridgeToken.allowance(deployer, user1)).to.equal(amount)
+        })
+      })
+      describe("mintingForEthReceiver", () => {
+        it.only("should allow EthReceiver to call the mint function", async () => {
+          // await bridgeToken.setEthReceiverAddress(ethReceiver.address)
+          const tx = await ethReceiver.receiveAndMint({
+            value: ethers.utils.parseEther("1"),
+          })
+          await tx.wait()
+          expect(bridgeToken.balanceOf(deployer.address)).to.equal(1)
+        })
+        it("reverts if msg.sender is not EthreceiverAddress", async () => {
+          // get another contract address and call the mintfunction on bridgeToken and expect a revert
+          // get contract address
+          await expect(
+            bridgeToken.mintForEthReceiverContract(user1, 1)
+          ).to.be.revertedWith("BridgeToken_Unauthorized()")
         })
       })
     })
