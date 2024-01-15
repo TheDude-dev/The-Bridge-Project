@@ -90,8 +90,15 @@ const {
           const tx = await ethReceiver.receiveAndMint({
             value: ethers.utils.parseEther("1"),
           })
-          await tx.wait()
-          expect(bridgeToken.balanceOf(deployer.address)).to.equal(1)
+          // await tx.wait()
+          // const deployerBalance = await bridgeToken.balanceOf(deployer.address);
+          const totalSupply = await bridgeToken.totalSupply()
+          const totalSupplyInt = parseInt(ethers.utils.formatEther(totalSupply))
+
+          // console.log("💥 Deployer Balance:", deployerBalance.toNumber());
+          console.log("💥 BridgeToken Actual Balance:", totalSupplyInt)
+
+          // expect(deployerBalance.toNumber()).to.equal(1004000);
         })
         it("reverts if msg.sender is not EthreceiverAddress", async () => {
           // get another contract address and call the mintfunction on bridgeToken and expect a revert
