@@ -11,7 +11,7 @@ contract EthReceiver {
   address private s_bridgeToken;
   address private s_owner;
   address private s_receiver;
-  uint256 private constant VALUE_MULTIPLIER = 1;
+  uint256 private constant VALUE_MULTIPLIER = 4000;
 
   constructor(address _s_bridgeToken, address _s_receiver) {
     s_owner = msg.sender;
