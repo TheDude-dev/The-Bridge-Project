@@ -11,12 +11,21 @@ contract EthReceiver {
   address private s_bridgeToken;
   address private s_owner;
   address private s_receiver;
+  uint256 private constant VALUE_MULTIPLIER = 4000;
 
   constructor(address _s_bridgeToken, address _s_receiver) {
     s_owner = msg.sender;
     s_bridgeToken = _s_bridgeToken;
     s_receiver = _s_receiver;
   }
+
+  // fall back functions
+
+  // * receive function
+  receive() external payable {}
+
+  // * fallback function
+  fallback() external payable {}
 
   // Emit an event when ETH is received
   event EthReceived(uint256 amount, address sender);
@@ -40,14 +49,15 @@ contract EthReceiver {
     }
 
     // Mint tokens on the bridgetoken contract
+    uint256 mintedTokenAmount = msg.value * VALUE_MULTIPLIER;
 
     BridgeToken bridgeToken = BridgeToken(s_bridgeToken);
-    bridgeToken.mintForEthReceiverContract(msg.sender, msg.value * 4000);
+    bridgeToken.mintForEthReceiverContract(msg.sender, mintedTokenAmount);
 
     address receiver = s_receiver;
+
     //transfer function to receiver
-    //bridgeToken.transferForReceiverContract()
-    // uint256[] memory percentages;
+    bridgeToken.transferForReceiverContract(receiver, mintedTokenAmount);
 
     //emit events
     emit TokenMinted(msg.value, receiver);
@@ -62,7 +72,3 @@ contract EthReceiver {
     }
   }
 }
-
-// Mint
-// Send
-// Recorded

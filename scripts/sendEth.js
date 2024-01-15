@@ -1,20 +1,27 @@
 const { ethers, network } = require("hardhat")
 const { moveBlocks } = require("../utils/move-blocks")
+require("dotenv").config()
+const { LOCALHOST_RPC_URL } = require("../helper-hardhat-config")
 
 const sendEth = async () => {
   const ethReceiver = await ethers.getContract("EthReceiver")
   const contractAddress = ethReceiver.address
+  let wallet, provider
 
   // get a provider
-  const provider = new ethers.providers.JsonRpcProvider("http://loclahost:8545")
-
-  // connect wallet with provider
-  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider)
+  if (network.config.chainId === 31337) {
+    provider = new ethers.providers.JsonRpcProvider(LOCALHOST_RPC_URL)
+    // connect wallet with provider
+    wallet = new ethers.Wallet(process.env.LOCALHOST_PRIVATE_KEY, provider)
+  } else {
+    provider = new ethers.providers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL)
+    wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider)
+  }
 
   // create a transaction
   const transaction = {
     to: contractAddress,
-    value: ethers.utils.parseEther("1.0"),
+    value: ethers.utils.parseEther("0.1"),
   }
 
   // sign and send transaction
