@@ -14,7 +14,7 @@ module.exports = async () => {
   }
 
   if (process.env.UPDATE_FRONT_END) {
-    console.log("Updating bridgeToken ABI in lockTOken contract")
+    console.log("Updating bridgeToken ABI in EthReceiver contract")
     await updateBridgeTokenAbi()
   }
 }

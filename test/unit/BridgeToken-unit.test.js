@@ -85,12 +85,13 @@ const {
         })
       })
       describe("mintingForEthReceiver", () => {
-        it.only("should allow EthReceiver to call the mint function", async () => {
+        it("should allow EthReceiver to call the mint function", async () => {
           // await bridgeToken.setEthReceiverAddress(ethReceiver.address)
           const tx = await ethReceiver.receiveAndMint({
             value: ethers.utils.parseEther("1"),
           })
           await tx.wait()
+          // Expect an event to be emitted (Eth received!)
           expect(bridgeToken.balanceOf(deployer.address)).to.equal(1)
         })
         it("reverts if msg.sender is not EthreceiverAddress", async () => {
