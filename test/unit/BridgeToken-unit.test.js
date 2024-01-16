@@ -101,4 +101,14 @@ const {
           ).to.be.revertedWith("BridgeToken_Unauthorized()")
         })
       })
+
+      describe("setEthReceiverAddress", () => {
+        it("should revert when BridgeToken Address is AlreadySet", async () => {
+          expect(
+            bridgeToken.setEthReceiverAddress(
+              "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+            )
+          ).to.be.revertedWith("BridgeToken_AddressAlreadySet")
+        })
+      })
     })
