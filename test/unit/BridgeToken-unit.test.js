@@ -86,7 +86,7 @@ const {
         })
       })
       describe("mintingForEthReceiver", () => {
-        it.only("should allow EthReceiver to call the mint function", async () => {
+        it("should allow EthReceiver to call the mint function", async () => {
           await expect(
             ethReceiver.receiveAndMint({
               value: ethers.utils.parseEther("1"),

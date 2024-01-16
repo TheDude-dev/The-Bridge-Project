@@ -30,8 +30,8 @@ contract EthReceiver {
   // Emit an event when ETH is received
   event EthReceived(uint256 indexed amount, address indexed sender);
 
-  // Emit an event when Tokens are minted
-  event TokenMinted(uint256 indexed amount, address indexed receiver);
+  // // Emit an event when Tokens are minted
+  // event TokenMinted(uint256 indexed amount, address indexed receiver);
 
   // Modifier only owner
   modifier onlyOwner() {
@@ -52,15 +52,8 @@ contract EthReceiver {
     uint256 mintedTokenAmount = msg.value * VALUE_MULTIPLIER;
 
     BridgeToken bridgeToken = BridgeToken(s_bridgeToken);
-    bridgeToken.mintForEthReceiverContract(msg.sender, mintedTokenAmount);
-
     address receiver = s_receiver;
-
-    //transfer function to receiver
-    // bridgeToken.transferForReceiverContract(receiver, mintedTokenAmount);
-
-    //emit events
-    emit TokenMinted(mintedTokenAmount, receiver);
+    bridgeToken.mintForEthReceiverContract(receiver, mintedTokenAmount);
     emit EthReceived(msg.value, msg.sender);
   }
 
