@@ -105,9 +105,7 @@ const {
       describe("setEthReceiverAddress", () => {
         it("should revert when BridgeToken Address is AlreadySet", async () => {
           expect(
-            bridgeToken.setEthReceiverAddress(
-              "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-            )
+            bridgeToken.setEthReceiverAddress(ethReceiver.address)
           ).to.be.revertedWith("BridgeToken_AddressAlreadySet")
         })
       })
