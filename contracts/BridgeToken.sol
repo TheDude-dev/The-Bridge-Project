@@ -39,14 +39,4 @@ contract BridgeToken is ERC20 {
 
     EthReceiverAddress = _ethReceiverAddress;
   }
-
-  function transferForReceiverContract(
-    address to,
-    uint256 amount
-  ) external onlyEthReceiver {
-    if (msg.sender != EthReceiverAddress) {
-      revert BridgeToken_Unauthorized();
-    }
-    transfer(to, amount);
-  }
 }

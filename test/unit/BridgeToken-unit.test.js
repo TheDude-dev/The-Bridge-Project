@@ -86,7 +86,7 @@ const {
         })
       })
       describe("mintingForEthReceiver", () => {
-        it.only("should allow EthReceiver to call the mint function", async () => {
+        it("should allow EthReceiver to call the mint function", async () => {
           await expect(
             ethReceiver.receiveAndMint({
               value: ethers.utils.parseEther("1"),
@@ -99,6 +99,16 @@ const {
           await expect(
             bridgeToken.mintForEthReceiverContract(user1, 1)
           ).to.be.revertedWith("BridgeToken_Unauthorized()")
+        })
+      })
+
+      describe("setEthReceiverAddress", () => {
+        it("should revert when BridgeToken Address is AlreadySet", async () => {
+          expect(
+            bridgeToken.setEthReceiverAddress(
+              "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+            )
+          ).to.be.revertedWith("BridgeToken_AddressAlreadySet")
         })
       })
     })
