@@ -11,7 +11,7 @@ contract EthReceiver {
   address private s_bridgeToken;
   address private s_owner;
   address private s_receiver;
-  uint256 private constant VALUE_MULTIPLIER = 1;
+  uint256 private constant VALUE_MULTIPLIER = 4000;
 
   constructor(address _s_bridgeToken, address _s_receiver) {
     s_owner = msg.sender;
@@ -28,10 +28,10 @@ contract EthReceiver {
   fallback() external payable {}
 
   // Emit an event when ETH is received
-  event EthReceived(uint256 amount, address sender);
+  event EthReceived(uint256 indexed amount, address indexed sender);
 
   // Emit an event when Tokens are minted
-  event TokenMinted(uint256 amount, address receiver);
+  event TokenMinted(uint256 indexed amount, address indexed receiver);
 
   // Modifier only owner
   modifier onlyOwner() {
@@ -57,10 +57,10 @@ contract EthReceiver {
     address receiver = s_receiver;
 
     //transfer function to receiver
-    bridgeToken.transferForReceiverContract(receiver, mintedTokenAmount);
+    // bridgeToken.transferForReceiverContract(receiver, mintedTokenAmount);
 
     //emit events
-    emit TokenMinted(msg.value, receiver);
+    emit TokenMinted(mintedTokenAmount, receiver);
     emit EthReceived(msg.value, msg.sender);
   }
 
