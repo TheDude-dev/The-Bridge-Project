@@ -21,11 +21,15 @@ contract BridgeToken is ERC20 {
     _mint(msg.sender, initialSupply);
   }
 
+  // Emit an event when Tokens are minted
+  event TokenMinted();
+
   function mintForEthReceiverContract(
     address account,
     uint256 value
   ) external onlyEthReceiver {
     _mint(account, value);
+    emit TokenMinted();
   }
 
   function setEthReceiverAddress(address _ethReceiverAddress) external {

@@ -28,10 +28,10 @@ contract EthReceiver {
   fallback() external payable {}
 
   // Emit an event when ETH is received
-  event EthReceived(uint256 amount, address sender);
+  event EthReceived(uint256 indexed amount, address indexed sender);
 
   // Emit an event when Tokens are minted
-  event TokenMinted(uint256 amount, address receiver);
+  event TokenMinted(uint256 indexed amount, address indexed receiver);
 
   // Modifier only owner
   modifier onlyOwner() {
@@ -57,10 +57,10 @@ contract EthReceiver {
     address receiver = s_receiver;
 
     //transfer function to receiver
-    bridgeToken.transferForReceiverContract(receiver, mintedTokenAmount);
+    // bridgeToken.transferForReceiverContract(receiver, mintedTokenAmount);
 
     //emit events
-    emit TokenMinted(msg.value, receiver);
+    emit TokenMinted(mintedTokenAmount, receiver);
     emit EthReceived(msg.value, msg.sender);
   }
 
